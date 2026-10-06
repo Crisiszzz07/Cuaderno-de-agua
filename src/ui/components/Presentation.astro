@@ -1,0 +1,30 @@
+---
+import { preparePresentation } from '../../application/prepare-presentation.ts';
+import { getReferences } from '../../application/get-content.ts';
+import CoastalScene from './CoastalScene.astro';
+import LightColumn from './LightColumn.astro';
+import ColombiaMap from './ColombiaMap.astro';
+import Turbidity from './Turbidity.astro';
+import FoodWeb from './FoodWeb.astro';
+import CoralDrawing from './CoralDrawing.astro';
+const slides = preparePresentation();
+---
+<main class="presentation-deck" id="diapositivas">
+  {slides.map((slide, index) => <section class:list={['export-slide', { 'has-visual': slide.visual, 'reference-slide': slide.references }]} aria-labelledby={`slide-${slide.id}`}>
+    <header><p>{slide.subtitle}</p><h2 id={`slide-${slide.id}`}>{slide.title}</h2></header>
+    <div class="slide-body"><div class="slide-copy">{slide.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+      {slide.items.length > 0 && <dl>{slide.items.map(item => <div><dt>{item.italicTitle ? <i>{item.title}</i> : item.title}</dt><dd>{item.text}</dd></div>)}</dl>}
+      {slide.references && <ol class="slide-references">{slide.references.map(reference => <li><a href={reference.url}>{reference.title}</a><p>{reference.publisher} · {reference.year}</p><a class="reference-url" href={reference.url}>{reference.url}</a></li>)}</ol>}
+    </div>
+    {slide.visual && <div class="slide-visual">
+      {slide.visual === 'coast' && <CoastalScene />}
+      {slide.visual === 'light' && <LightColumn />}
+      {slide.visual === 'map' && <ColombiaMap />}
+      {slide.visual === 'turbidity' && <Turbidity />}
+      {slide.visual === 'food' && <FoodWeb />}
+      {slide.visual === 'corals' && <div class="slide-corals"><CoralDrawing kind="palmata" /><p><i>Acropora palmata</i></p><CoralDrawing kind="cervicornis" /><p><i>Acropora cervicornis</i></p></div>}
+    </div>}
+    </div>
+    <footer><p>{getReferences(slide.citationIds).map((reference, referenceIndex) => <>{referenceIndex > 0 && ' · '}<a href={reference.url}>{reference.short}</a></>)}</p><span>{index + 1} / {slides.length}</span></footer>
+  </section>)}
+</main>

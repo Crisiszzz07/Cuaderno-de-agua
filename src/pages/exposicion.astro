@@ -1,0 +1,16 @@
+---
+import Presentation from '../ui/components/Presentation.astro';
+import '../ui/styles/global.css';
+import '../ui/styles/presentation.css';
+---
+<!doctype html>
+<html lang="es">
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Ecosistemas fóticos · Exportar diapositivas</title><meta name="robots" content="noindex" /><link rel="icon" href="/favicon.svg" /></head>
+  <body class="presentation-page">
+    <header class="export-header"><a href="/#actividad">Volver al cuaderno</a><h1>Exportar diapositivas</h1><p>Formato 16:9. En el diálogo de impresión, elige «Guardar como PDF» y activa los gráficos de fondo. Usa márgenes «Ninguno» y desactiva encabezados y pies del navegador.</p><div><button class="button button-primary" type="button" data-print-slides hidden>Guardar PDF</button><a class="button" href="/downloads/ecosistemas-foticos.pptx" download>Descargar PPTX</a></div><noscript><p>Abre la impresión del navegador (Ctrl+P o ⌘+P) para guardar el PDF.</p></noscript></header>
+    <Presentation />
+    <script>
+      import '../ui/interactive/print-presentation.ts';
+    </script>
+  </body>
+</html>

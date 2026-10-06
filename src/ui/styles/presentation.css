@@ -1,0 +1,70 @@
+.presentation-page { background: var(--color-sand); }
+.presentation-page .motion-controls { display: none; }
+.export-header { max-width: 1000px; margin: 2rem auto; padding-inline: 1.5rem; }
+.export-header h1 { font-size: 2rem; margin-top: 1rem; }
+.export-header > div { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+.export-header .button:not(.button-primary) { background: var(--color-paper); }
+.presentation-deck { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+.export-slide { background: var(--color-paper); color: var(--color-ink); padding: 2rem; margin-bottom: 2rem; display: flex; flex-direction: column; min-height: 650px; border: 1px solid var(--color-rule); }
+.export-slide > header > p { color: var(--color-muted); font-size: .875rem; margin-bottom: .6rem; }
+.export-slide h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1.5rem; }
+.slide-body { flex: 1; min-height: 0; }
+.slide-copy p { margin-bottom: 1rem; }
+.slide-copy dl { margin: 1rem 0; }
+.slide-copy dl > div { margin-bottom: 1rem; }
+.slide-copy dt { font-size: 1rem; }
+.slide-copy dd { font-size: .95rem; }
+.slide-visual { min-width: 0; }
+.slide-visual .sources, .slide-visual .secondary-detail { display: none; }
+.slide-visual figcaption { font-size: .75rem; }
+.slide-visual .figure-heading { margin-bottom: .75rem; }
+.slide-visual .water-zone { min-height: 110px; padding: 1rem; }
+.slide-visual .water-sample { min-height: 280px; }
+.slide-visual .map-legend { font-size: .75rem; }
+.slide-visual svg { max-height: 400px; }
+.slide-corals { display: grid; justify-items: center; }
+.slide-corals .coral-drawing { height: 125px; }
+.slide-corals > p { font-size: .875rem; }
+.export-slide > footer { display: flex; gap: 1rem; justify-content: space-between; align-items: end; border-top: 1px solid var(--color-rule); margin-top: 1rem; padding-top: .75rem; font-size: .75rem; }
+.export-slide > footer > p { max-width: 100ch; }
+.export-slide > footer > span { flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.slide-references { padding-left: 1.2rem; display: grid; gap: .8rem; }
+.slide-references li { font-size: .875rem; break-inside: avoid; }
+.slide-references li p { font-size: .75rem; margin: .2rem 0; }
+.reference-url { font-size: .65rem; overflow-wrap: anywhere; }
+@media (min-width: 60rem) {
+  .has-visual .slide-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2rem; }
+  .slide-references { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2rem; }
+}
+@media print {
+  @page { size: 297mm 167.0625mm; margin: 0; }
+  html { font-size: 16px; overflow: visible; }
+  .presentation-page { background: var(--color-paper); overflow: visible; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .presentation-page::before, .export-header { display: none; }
+  .presentation-deck { max-width: none; padding: 0; margin: 0; }
+  .export-slide { width: 297mm; height: 167.0625mm; min-height: 0; padding: 10mm 12mm; margin: 0; border: 0; break-after: page; break-inside: avoid; }
+  .export-slide:last-child { break-after: auto; }
+  .export-slide h2 { font-size: 26pt; margin-bottom: 5mm; }
+  .export-slide > header > p { font-size: 10pt; }
+  .slide-body { font-size: 12pt; }
+  .has-visual .slide-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 8mm; }
+  .slide-copy p { margin-bottom: 3mm; line-height: 1.5; }
+  .slide-copy dl { margin: 3mm 0; }
+  .slide-copy dl > div { margin-bottom: 3mm; }
+  .slide-copy dt { font-size: 12pt; }
+  .slide-copy dd { font-size: 11pt; line-height: 1.45; }
+  .slide-visual svg { max-height: 104mm; }
+  .slide-visual .map-figure svg { max-height: 72mm; }
+  .slide-visual .food-figure svg { max-height: 85mm; }
+  .slide-visual .water-zone { min-height: 29mm; padding: 3mm; }
+  .slide-visual .zone-content p { font-size: 10pt; }
+  .slide-visual .water-sample { min-height: 87mm; }
+  .slide-visual .food-mobile { display: none; }
+  .slide-visual .food-figure svg { display: block; }
+  .slide-visual figcaption { font-size: 8pt; margin-top: 2mm; }
+  .export-slide > footer { margin-top: 3mm; padding-top: 2mm; font-size: 8pt; }
+  .slide-references { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4mm 8mm; margin-top: 0; }
+  .slide-references li { font-size: 10pt; line-height: 1.4; }
+  .slide-references li p { font-size: 8pt; }
+  .reference-url { font-size: 7pt; }
+}
