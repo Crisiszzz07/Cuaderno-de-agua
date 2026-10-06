@@ -1,0 +1,18 @@
+[Unit]
+Description=Cuaderno de agua - ecosistemas foticos
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=120
+TimeoutStopSec=30
+ExecStart=/usr/bin/podman run --rm --name cuaderno-de-agua --pull=never --publish 127.0.0.1:8082:8080 --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16m --cap-drop=all --security-opt=no-new-privileges --pids-limit=128 --memory=512m --memory-swap=512m --cpus=1 --env PUBLIC_ORIGIN=https://example.org localhost/ecosistemas-foticos:latest
+ExecStop=/usr/bin/podman stop --time 20 cuaderno-de-agua
+
+[Install]
+WantedBy=multi-user.target
