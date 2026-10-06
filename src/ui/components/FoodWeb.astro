@@ -1,0 +1,30 @@
+---
+import { getContent } from '../../application/get-content.ts';
+import Sources from './Sources.astro';
+import MotionControl from './MotionControl.astro';
+const { foodWeb } = getContent();
+---
+<figure class="food-figure" data-motion-figure>
+  <div class="figure-heading"><h3>Una red, varias rutas</h3><span>Esquema conceptual</span></div>
+  <svg viewBox="0 0 610 620" role="img" aria-labelledby="food-title food-description">
+    <title id="food-title">Red trófica acuática simplificada</title><desc id="food-description">{foodWeb.description}</desc>
+    <defs><marker id="food-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--color-ink)" /></marker><marker id="recycle-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--color-green)" /></marker></defs>
+    <g class="food-path"><path d="M300 61V98 M175 157V209 M431 157V209 M185 271L263 326 M431 271L350 326 M431 155L355 326 M300 388V431" /></g>
+    <g class="food-flow" aria-hidden="true"><circle cx="300" cy="65" r="4" /><circle cx="175" cy="163" r="4" /><circle cx="431" cy="163" r="4" /><circle cx="300" cy="394" r="4" /></g>
+    <g class="recycle-path"><path d="M118 156H38V538H116 M480 245H563V538H480 M405 355H539V538H480 M405 461H515V538H480 M350 544H275 M116 537H73V124H112" /></g>
+    <g class="food-node food-energy"><rect x="207" y="14" width="186" height="47" rx="2" /><text x="300" y="44">Luz solar</text></g>
+    <g class="food-node food-producer"><rect x="111" y="99" width="138" height="58" rx="2" /><text x="180" y="134">Fitoplancton</text><rect x="355" y="99" width="146" height="58" rx="2" /><text x="428" y="123">Algas y</text><text x="428" y="144">plantas</text></g>
+    <g class="food-node"><rect x="111" y="210" width="148" height="60" rx="2" /><text x="185" y="244">Zooplancton</text><rect x="355" y="210" width="146" height="60" rx="2" /><text x="428" y="244">Herbívoros</text><rect x="193" y="327" width="214" height="61" rx="2" /><text x="300" y="351">Peces y otros</text><text x="300" y="375">consumidores</text><rect x="193" y="432" width="214" height="60" rx="2" /><text x="300" y="457">Aves y peces</text><text x="300" y="479">depredadores</text></g>
+    <g class="food-node food-recycle"><rect x="350" y="512" width="130" height="59" rx="2" /><text x="415" y="535">Restos</text><text x="415" y="556">orgánicos</text><rect x="116" y="513" width="159" height="59" rx="2" /><text x="195" y="537">Bacterias</text><text x="195" y="557">y hongos</text></g>
+    <g class="food-labels"><text x="82" y="361" transform="rotate(-90 82 361)">Nutrientes a productores</text><text x="527" y="180">Restos</text><text x="300" y="601" text-anchor="middle">La materia se recicla. La energía fluye.</text></g>
+  </svg>
+  <div class="food-mobile" aria-label="Rutas alimentarias y reciclaje">
+    <p class="mobile-energy">Luz solar <span aria-hidden="true">↓</span></p>
+    <ol class="mobile-routes"><li><strong>Fitoplancton</strong><span aria-hidden="true">↓</span>Zooplancton</li><li><strong>Algas y plantas</strong><span aria-hidden="true">↓</span>Herbívoros</li></ol>
+    <p class="mobile-consumer"><span aria-hidden="true">↓</span> Peces y otros consumidores <span aria-hidden="true">↓</span> Aves y peces depredadores</p>
+    <p class="mobile-recycle">Restos de todos los niveles → bacterias y hongos → nutrientes → productores</p>
+  </div>
+  <figcaption>Flechas continuas: alimento → consumidor. Discontinuas: restos y reciclaje de nutrientes. La luz aporta energía. Rutas ilustrativas; no representa una comunidad específica.</figcaption><Sources ids={['food-web', 'decomposers']} />
+  <details class="secondary-detail"><summary>Leer la red en palabras</summary><p>{foodWeb.description}</p></details>
+  <MotionControl />
+</figure>

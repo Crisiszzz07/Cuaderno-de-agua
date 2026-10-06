@@ -1,0 +1,67 @@
+---
+import { getContent, getReferences } from '../../application/get-content.ts';
+import { SITE_TITLE, REVIEW_DATE } from '../../shared/constants.ts';
+import SectionIntro from '../components/SectionIntro.astro';
+import Sources from '../components/Sources.astro';
+import CoastalScene from '../components/CoastalScene.astro';
+import LightColumn from '../components/LightColumn.astro';
+import ColombiaMap from '../components/ColombiaMap.astro';
+import Turbidity from '../components/Turbidity.astro';
+import FoodWeb from '../components/FoodWeb.astro';
+import CoralDrawing from '../components/CoralDrawing.astro';
+import Activity from '../components/Activity.astro';
+import LiveActivity from '../components/LiveActivity.astro';
+import '../styles/global.css';
+import '../styles/live-activity.css';
+const content = getContent();
+const [light, colombia, factors, network, life, pressure, care, activity] = content.sections;
+const references = getReferences();
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{SITE_TITLE} · Donde la luz sostiene la vida</title>
+    <meta name="description" content="Explora la zona iluminada de mares y aguas continentales de Colombia: luz, redes tróficas, conservación y una actividad de 3 minutos en grupos." />
+    <meta name="theme-color" content="#173e46" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+      <div class="header-top container"><a class="wordmark" href="#inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 14Q9 8 16 14T30 14M2 21Q9 15 16 21T30 21" /><circle cx="22" cy="5" r="3" /></svg> Cuaderno de agua</a><button class="exposure-toggle" type="button" data-exposure-toggle aria-pressed="false" aria-controls="exposure-toolbar" hidden><span class="mode-dot" aria-hidden="true"></span> Modo exposición</button></div>
+      <nav class="header-nav container" aria-label="Navegación principal"><a href="#luz">La luz</a><a href="#colombia">Colombia</a><a href="#red">Red de vida</a><a href="#cuidar">Conservación</a><a href="#actividad">Actividad</a><a href="#fuentes">Fuentes <span aria-hidden="true">↗</span></a></nav>
+    </header>
+    <div class="exposure-toolbar" id="exposure-toolbar" data-exposure-toolbar hidden>
+      <div class="container exposure-controls"><button type="button" data-previous aria-label="Ir a la sección anterior">←</button><span data-section-indicator>1 / 8 · La luz</span><button type="button" data-next aria-label="Ir a la sección siguiente">→</button><nav aria-label="Secciones de la exposición">{content.sections.map((section, index) => <a href={`#${section.id}`} data-progress-link aria-label={`${index + 1}. ${section.nav}`}>{index + 1}</a>)}</nav><div class="exposure-actions"><button type="button" data-fullscreen aria-pressed="false">Pantalla completa</button><a href="/exposicion/" target="_blank" rel="noopener">Exportar PDF <span class="sr-only">(abre una pestaña nueva)</span></a><a href="/downloads/ecosistemas-foticos.pptx" download>Descargar PPTX</a></div><p class="exposure-message" data-exposure-message role="status" hidden></p></div>
+    </div>
+    <nav class="fullscreen-dock" data-fullscreen-dock aria-label="Controles de pantalla completa" hidden>
+      <button type="button" data-previous aria-label="Ir a la sección anterior">←</button>
+      <span data-fullscreen-indicator aria-label="Sección actual">1 / 8</span>
+      <button type="button" data-next aria-label="Ir a la sección siguiente">→</button>
+      <button type="button" data-exit-fullscreen aria-label="Salir de pantalla completa">Salir</button>
+      <p data-fullscreen-message role="status" hidden></p>
+    </nav>
+    <main id="contenido">
+      <section class="hero container" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="hero-kicker">Ecología · Colombia</p><h1 id="hero-title">Ecosistemas<br />fóticos</h1><p class="hero-question">¿Qué ocurre con la vida acuática<br class="desktop-break" /> cuando cambia la luz?</p><p class="hero-description">Un recorrido por la franja de agua donde la luz hace posible la fotosíntesis, desde nuestros mares hasta las ciénagas.</p><div class="hero-actions"><a class="button button-primary" href="#luz">Explorar el cuaderno <span aria-hidden="true">↓</span></a><a class="hero-activity" href="#actividad">Actividad en grupos <span aria-hidden="true">↗</span></a></div><p class="hero-meta">15 minutos de recorrido · 4 voces · Una pregunta común</p></div>
+        <CoastalScene />
+      </section>
+      <aside class="reading-route container secondary-detail" aria-label="Ruta sugerida para cuatro integrantes">
+        <p>Ruta de la exposición</p><ol>{content.presentation.map(item => <li><a href={`#${item.target}`}><span>{item.person} · {item.time}</span><strong>{item.topic}</strong></a></li>)}</ol><p class="route-end">12–15 min<br /><strong>Actividad y cierre</strong></p>
+      </aside>
+      <section class="section split container" id="luz" data-section data-label="La luz" aria-labelledby="luz-heading"><SectionIntro section={light}><div class="field-note"><strong>200 m ≠ un límite fijo</strong><p>La pregunta no es solo «¿qué tan profundo?», sino «¿cuánta luz llega?».</p></div></SectionIntro><LightColumn /></section>
+      <section class="section split reverse container" id="colombia" data-section data-label="Colombia" aria-labelledby="colombia-heading"><SectionIntro section={colombia}><dl class="region-list">{content.regions.map(region => <div><dt>{region.title}</dt><dd>{region.text}</dd></div>)}</dl></SectionIntro><ColombiaMap /></section>
+      <section class="section split container" id="factores" data-section data-label="Factores" aria-labelledby="factores-heading"><SectionIntro section={factors}><div class="factor-list">{factors.blocks.map(block => <div><h3>{block.title}</h3><p>{block.text}</p><Sources ids={block.citations} /></div>)}</div></SectionIntro><Turbidity /></section>
+      <section class="network-band"><div class="section split container" id="red" data-section data-label="Red de vida" aria-labelledby="red-heading"><SectionIntro section={network}><dl class="trophic-list">{network.blocks.map(block => <div><dt>{block.title}</dt><dd>{block.text}<Sources ids={block.citations} /></dd></div>)}</dl></SectionIntro><FoodWeb /></div></section>
+      <section class="section life-section container" id="vida" data-section data-label="Habitantes" aria-labelledby="vida-heading"><div class="life-intro"><SectionIntro section={life} /><div class="ecological-roles">{life.blocks.map(block => <div><h3>{block.title}</h3><p>{block.text}</p><Sources ids={block.citations} /></div>)}</div></div><div class="coral-panel"><div class="coral-heading"><h3>Dos corales del Caribe colombiano</h3><p>Ambientes someros iluminados · Esquemas de forma, sin escala</p></div><div class="coral-pair">{content.species.map((item, index) => <article><CoralDrawing kind={index === 0 ? 'palmata' : 'cervicornis'} /><h4>{item.commonName}</h4><p class="scientific-name"><i>{item.scientificName}</i></p><p>{item.description}</p><Sources ids={item.citations} /></article>)}</div><p class="coral-note">La sedimentación, el calentamiento, las enfermedades y los daños físicos pueden actuar juntos. Conservar el arrecife requiere atender varias presiones.</p><Sources ids={['pnn-plan', 'bleaching']} /></div></section>
+      <section class="section container" id="presiones" data-section data-label="Presiones" aria-labelledby="presiones-heading"><div class="pressure-intro"><SectionIntro section={pressure} /><div class="field-note"><strong>Una cadena causal, no una causa única.</strong><p>Actividad humana → cambio en el agua → cambio en luz o equilibrio → efecto ecológico.</p></div></div><div class="causal-heading" aria-hidden="true"><span>Actividad humana</span><span>Cambio físico o químico</span><span>Luz o equilibrio</span><span>Consecuencia probable</span></div><div class="causal-chains">{content.threats.map(threat => <div class="causal-row"><ol aria-label={`Cadena causal: ${threat.activity}`}><li>{threat.activity}</li><li>{threat.change}</li><li>{threat.light}</li><li>{threat.consequence}</li></ol><Sources ids={threat.citations} /></div>)}</div><div class="pressure-detail"><h3>{pressure.blocks[0].title}</h3><p>{pressure.blocks[0].text}</p><Sources ids={pressure.blocks[0].citations} /></div></section>
+      <section class="care-band"><div class="section container" id="cuidar" data-section data-label="Cuidar" aria-labelledby="cuidar-heading"><SectionIntro section={care} /><div class="care-columns"><div><h3>Lo que sostienen</h3><dl>{content.services.map(item => <div><dt>{item.title}</dt><dd>{item.text}<Sources ids={item.citations} /></dd></div>)}</dl></div><div><h3>Lo que podemos hacer</h3><dl>{content.actions.map(item => <div><dt>{item.title}</dt><dd>{item.text}<Sources ids={item.citations} /></dd></div>)}</dl></div></div><aside class="restoration"><span class="restoration-mark" aria-hidden="true">↳</span><div><h3>{care.blocks[0].title}</h3><p>{care.blocks[0].text}</p><p>Entre las especies cultivadas están <i>Acropora palmata</i> y <i>Acropora cervicornis</i>.</p><Sources ids={care.blocks[0].citations} /></div></aside></div></section>
+      <section class="section activity-section container" id="actividad" data-section data-label="Actividad" aria-labelledby="actividad-heading"><SectionIntro section={activity} /><LiveActivity /><div data-local-activity><h3 class="local-activity-heading">Alternativa sin conexión entre teléfonos</h3><Activity scenarios={content.scenarios} /></div></section>
+      <section class="bibliography container" id="fuentes" aria-labelledby="sources-heading"><div class="bibliography-heading"><h2 id="sources-heading">Seguir la evidencia</h2><p>Bibliografía pública · Revisión: {REVIEW_DATE}</p></div><p>Las fuentes acompañan cada bloque. Los gráficos son originales y conceptuales: no se han extrapolado datos de otros lugares para medir Colombia.</p><details class="references-details" open><summary>Consultar las {references.length} referencias</summary><ol>{references.map(reference => <li id={`ref-${reference.id}`}><div><a href={reference.url}>{reference.title} <span aria-hidden="true">↗</span></a><p>{reference.publisher} · {reference.year}</p><p class="reference-scope">{reference.scope}</p>{'mirror' in reference && <a class="alternate-source" href={reference.mirror}>Lectura alternativa</a>}</div></li>)}</ol></details></section>
+    </main>
+    <footer class="site-footer container"><a class="footer-wordmark" href="#inicio">Cuaderno de agua <span aria-hidden="true">↑</span></a><p>La luz inicia una red.<br />El cuidado del agua la sostiene.</p><p>Recurso educativo universitario.<br />Sin cuentas ni rastreo. Actividad en memoria temporal.</p></footer>
+    <script>
+      import '../interactive/exposure.ts';
+    </script>
+  </body>
+</html>

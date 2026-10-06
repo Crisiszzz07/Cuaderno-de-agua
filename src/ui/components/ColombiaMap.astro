@@ -1,0 +1,20 @@
+---
+import Sources from './Sources.astro';
+---
+<figure class="map-figure">
+  <div class="figure-heading"><h3>Colombia y sus aguas</h3><span>Mapa esquemático</span></div>
+  <svg viewBox="0 0 620 530" role="img" aria-labelledby="map-title map-description">
+    <title id="map-title">Mapa ilustrativo de ambientes acuáticos en Colombia</title>
+    <desc id="map-description">Silueta esquemática de Colombia: Caribe al norte, Pacífico al oeste, Magdalena–Cauca en el centro, Orinoco al este y Amazonas al sur. San Andrés y Providencia aparecen en un recuadro insular fuera de escala. Las líneas sugieren agua continental, no límites de cuencas ni mediciones de extensión fótica.</desc>
+    <defs><pattern id="map-grid" width="35" height="35" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="var(--color-rule)" stroke-width=".6" /></pattern></defs>
+    <rect class="map-water" width="620" height="530" /><rect fill="url(#map-grid)" width="620" height="530" />
+    <path class="map-land" d="M181 134L207 143 241 123 281 126 298 107 318 104 340 83 364 76 386 64 400 43 426 33 439 41 432 53 414 64 411 83 398 95 397 120 406 142 427 157 421 178 440 200 464 203 461 236 488 243 489 268 523 283 522 318 546 335 526 351 537 380 511 403 515 455 498 484 477 467 461 436 431 425 400 431 371 410 351 416 321 398 304 373 278 366 257 345 238 344 221 325 199 327 174 304 151 295 140 274 145 249 151 233 146 213 157 194 152 174 163 153Z" />
+    <g class="map-rivers"><path d="M281 349Q308 292 302 233T286 143 M257 324Q283 266 274 205L281 153 M337 274Q386 267 448 246 M337 307Q422 291 502 299 M290 356Q378 362 466 405 M334 388Q413 391 487 444" /></g>
+    <g class="map-labels"><text x="283" y="48">MAR CARIBE</text><text x="26" y="247">OCÉANO</text><text x="26" y="269">PACÍFICO</text><text x="300" y="154">Caribe</text><text x="175" y="225" transform="rotate(-68 175 225)">Pacífico</text><text x="313" y="227">Magdalena–</text><text x="313" y="250">Cauca</text><text x="419" y="308">Orinoco</text><text x="400" y="363">Amazonas</text></g>
+    <g class="map-inset"><rect x="20" y="26" width="189" height="126" rx="2" /><path d="M45 64L48 74 43 81 40 72Z M46 104L51 115 46 120 43 110Z" /><text x="62" y="77">Providencia</text><text x="62" y="117">San Andrés</text><text x="34" y="47" class="inset-note">RECUADRO INSULAR</text><text x="33" y="141" class="inset-note">Fuera de escala</text></g>
+    <g class="map-north"><path d="M575 89V49L568 62M575 49L582 62" /><text x="569" y="39">N</text></g>
+  </svg>
+  <ul class="map-legend" aria-label="Leyenda"><li><span class="legend-land" aria-hidden="true"></span>Territorio ilustrativo</li><li><span class="legend-river" aria-hidden="true"></span>Agua continental</li><li><span class="legend-water" aria-hidden="true"></span>Ámbitos marinos</li></ul>
+  <figcaption>Ilustrativo, sin escala ni límites hidrográficos. No mide la extensión de la zona fótica. Las etiquetas ubican grandes ámbitos; no indican sitios de muestreo.</figcaption>
+  <Sources ids={['siac', 'ideam']} />
+</figure>

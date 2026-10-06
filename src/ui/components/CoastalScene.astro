@@ -1,0 +1,33 @@
+---
+import MotionControl from './MotionControl.astro';
+---
+<figure class="coastal-scene" data-motion-figure>
+  <svg viewBox="0 0 650 510" role="img" aria-labelledby="coastal-title coastal-description">
+    <title id="coastal-title">Donde llega la luz, comienza la fotosíntesis</title>
+    <desc id="coastal-description">Ilustración conceptual original de una costa: luz solar atraviesa la superficie y alcanza plantas sumergidas. Las capas de agua se oscurecen hacia el fondo. No representa profundidades ni un lugar específico.</desc>
+    <defs>
+      <filter id="paper-shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="var(--color-ink)" flood-opacity=".18" /></filter>
+      <pattern id="water-lines" width="58" height="20" patternUnits="userSpaceOnUse"><path d="M0 12 Q14 5 28 12 T58 12" stroke="var(--color-paper)" stroke-width=".7" opacity=".23" fill="none" /></pattern>
+      <clipPath id="coast-clip"><path d="M25 27 Q320 14 625 30 L629 480 Q320 497 24 479 Z" /></clipPath>
+    </defs>
+    <g clip-path="url(#coast-clip)">
+      <path class="scene-sky" d="M20 20H635V490H20Z" />
+      <circle class="scene-sun" cx="415" cy="95" r="42" />
+      <path class="scene-hill-back paper-layer" d="M15 220Q65 168 105 177T225 213Q265 164 297 197L357 251H15Z" />
+      <path class="scene-hill paper-layer" d="M0 236Q58 207 93 225L136 178 151 198 167 157 192 194 211 164 225 209Q269 232 328 245L355 290H0Z" />
+      <path class="scene-shore paper-layer" d="M0 265Q95 247 179 261T339 264L420 285Q207 328 0 302Z" />
+      <path class="scene-water-light paper-layer" d="M0 291Q62 278 138 290T295 289T467 287T650 299V520H0Z" />
+      <path class="scene-ray" d="M365 281L295 430H352L404 281Z M431 285L470 455H507L457 285Z M478 286L580 410H608L502 286Z" />
+      <path class="scene-water-mid paper-layer" d="M0 353Q80 325 163 348T313 341T466 350T650 332V520H0Z" />
+      <path class="scene-water-deep paper-layer" d="M0 423Q100 390 187 421T378 409T650 403V520H0Z" />
+      <path fill="url(#water-lines)" d="M0 300H650V490H0Z" />
+      <g class="scene-fish"><path d="M460 325Q481 307 503 325Q481 343 460 325L450 314V337Z" /><path d="M359 376Q372 365 389 376Q372 388 359 376L351 366V385Z" /><path d="M537 372Q552 361 568 372Q552 384 537 372L529 364V382Z" /></g>
+      <path class="scene-sand paper-layer" d="M0 469Q110 436 243 463T479 460Q569 434 650 455V520H0Z" />
+      <g class="scene-grass paper-layer"><path d="M125 485Q82 432 107 381Q104 444 125 473Q120 411 139 390Q132 448 136 483Z M157 485Q133 445 150 425L159 475Q162 424 177 410Q169 449 172 485Z M505 488Q472 452 485 416Q487 460 505 480Q505 434 522 401Q515 461 521 487Z M543 485Q527 453 537 436L547 479Q548 436 562 416Q557 461 558 484Z" /></g>
+    </g>
+    <path class="scene-edge" d="M25 27 Q320 14 625 30 L629 480 Q320 497 24 479 Z" />
+    <g class="scene-annotation"><path d="M428 160V260" /><path d="M422 251L428 263 434 251" /><text x="445" y="208">LUZ SOLAR</text><text x="44" y="323">SUPERFICIE</text></g>
+  </svg>
+  <figcaption>Ilustración conceptual · La luz conecta superficie y vida sumergida.</figcaption>
+  <MotionControl />
+</figure>

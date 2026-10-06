@@ -1,0 +1,31 @@
+---
+import type { ActivityScenario } from '../../domain/models.ts';
+import Sources from './Sources.astro';
+interface Props { scenarios: readonly ActivityScenario[] }
+const { scenarios } = Astro.props;
+---
+<div class="activity" data-activity>
+  <ol class="activity-timing"><li><strong>30 s</strong> Leer</li><li><strong>90 s</strong> Conversar</li><li><strong>60 s</strong> Contrastar y compartir</li></ol>
+  <div class="scenario-picker enhanced-only" aria-label="Elegir escenario">
+    {scenarios.map((scenario, index) => <button type="button" data-scenario-button={scenario.id} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls={`scenario-${scenario.id}`}><span aria-hidden="true">{index + 1}.</span> {scenario.title}</button>)}
+  </div>
+  {scenarios.map((scenario, index) => <article class="scenario" id={`scenario-${scenario.id}`} data-scenario={scenario.id}>
+    <div class="scenario-context"><span class="scenario-number" aria-hidden="true">0{index + 1}</span><div><h3 tabindex="-1">{scenario.title}</h3><p>{scenario.context}</p></div></div>
+    <form data-activity-form>
+      <div class="activity-questions">
+        {scenario.questions.map((question, questionIndex) => <fieldset><legend><span aria-hidden="true">{questionIndex + 1} / </span>{question.prompt}</legend>
+          {question.options.map(option => <label><input type="radio" name={question.id} value={option.id} required /><span>{option.label}</span></label>)}
+        </fieldset>)}
+      </div>
+      <div class="activity-controls enhanced-only"><button class="button button-primary" type="submit">Contrastar respuestas <span aria-hidden="true">↗</span></button><button class="button button-text" type="reset">Reiniciar</button><span>Sin puntajes. Solo relaciones.</span></div>
+      <p class="activity-error" role="status" hidden>Seleccionen una opción en cada pregunta para contrastar sus ideas.</p>
+      <div class="activity-feedback" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    </form>
+    <details class="offline-explanation"><summary>Explicación para conversar sin interactividad</summary>{scenario.questions.map(question => <p><strong>{question.prompt}</strong> {question.explanation}</p>)}</details>
+    <Sources ids={scenario.citations} />
+  </article>)}
+  <p class="activity-close">Para cerrar: ¿qué acción sobre la cuenca o el arrecife ayudaría en su escenario?</p>
+</div>
+<script>
+  import '../interactive/activity.ts';
+</script>

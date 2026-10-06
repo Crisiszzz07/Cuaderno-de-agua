@@ -1,0 +1,8 @@
+---
+interface Props { kind: 'palmata' | 'cervicornis' }
+const { kind } = Astro.props;
+---
+<svg class={`coral-drawing ${kind}`} viewBox="0 0 260 150" role="img" aria-label={kind === 'palmata' ? 'Esquema de ramas anchas de coral cuerno de alce; no es una identificación taxonómica.' : 'Esquema de ramas delgadas de coral cuerno de ciervo; no es una identificación taxonómica.'}>
+  {kind === 'palmata' ? <path d="M107 139L104 115 79 98 53 93 34 78 27 55 36 42 49 70 72 77 85 71 75 48 57 35 57 18 71 25 89 40 99 68 113 82 129 68 127 46 114 25 118 13 134 31 141 52 151 63 167 57 180 36 190 27 198 29 186 53 178 71 153 91 137 113 137 139Z M151 65L168 83 194 76 204 62 220 58 228 67 211 82 197 94 171 98 144 112Z" /> : <g><path d="M115 140L128 99 120 73 103 49 93 19 M126 98L155 76 165 53 168 20 M120 73L143 50 149 23 M153 78L181 86 204 72 225 41 M181 86L188 113 208 131 M110 114L81 86 66 48 45 27 M83 88L50 83 29 63 M65 49L83 38 77 13 M203 72L210 99" /></g>}
+  <path class="coral-ground" d="M28 142Q74 133 122 141T235 139" />
+</svg>

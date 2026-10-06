@@ -1,0 +1,13 @@
+---
+import Sources from './Sources.astro';
+import MotionControl from './MotionControl.astro';
+---
+<figure class="turbidity-figure" data-motion-figure>
+  <div class="figure-heading"><h3>Misma luz, distinta transparencia</h3></div>
+  <div class="water-comparison">
+    <div class="water-sample clear-water"><span>Agua clara</span><div class="sample-beam" aria-hidden="true"></div><p>La luz alcanza mayor profundidad</p></div>
+    <div class="water-sample turbid-water"><span>Agua turbia</span><div class="sample-beam" aria-hidden="true"></div><div class="sediment-dots" aria-hidden="true">{Array.from({ length: 27 }, (_, i) => <i style={`--x:${(i * 37 + 7) % 93}%;--y:${(i * 17 + 21) % 90}%`}></i>)}</div><p>La luz se atenúa antes</p></div>
+  </div>
+  <figcaption>Comparación cualitativa original, sin escala. Una mayor turbidez suele limitar la luz disponible bajo la superficie.</figcaption><Sources ids={['cmecs']} />
+  <MotionControl />
+</figure>

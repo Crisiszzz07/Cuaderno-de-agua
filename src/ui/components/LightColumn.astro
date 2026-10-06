@@ -1,0 +1,18 @@
+---
+import { getContent } from '../../application/get-content.ts';
+import Sources from './Sources.astro';
+import MotionControl from './MotionControl.astro';
+const { lightZones } = getContent();
+---
+<figure class="light-figure" aria-labelledby="light-caption" data-motion-figure>
+  <div class="figure-heading"><h3>Zonas según la luz</h3><span>Superficie ↓ profundidad</span></div>
+  <div class="water-column">
+    {lightZones.map((zone, index) => <div class={`water-zone ${zone.className}`}>
+      <div class="light-beams" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="zone-content"><span class="zone-order" aria-hidden="true">{index + 1}</span><div><h4>{zone.title}</h4><p>{zone.description}</p><span class="zone-label">{zone.label}</span></div></div>
+    </div>)}
+  </div>
+  <figcaption id="light-caption">Esquema sin escala. Las fronteras cambian con la claridad del agua; un cuerpo de agua somero puede estar iluminado hasta el fondo.</figcaption>
+  <Sources ids={['noaa-light', 'cmecs']} />
+  <MotionControl />
+</figure>

@@ -1,0 +1,13 @@
+---
+import type { EcosystemSection } from '../../domain/models.ts';
+import Sources from './Sources.astro';
+interface Props { section: EcosystemSection }
+const { section } = Astro.props;
+---
+<div class="section-intro">
+  <p class="section-topic">{section.lead}</p>
+  <h2 id={`${section.id}-heading`} tabindex="-1">{section.title}</h2>
+  {section.paragraphs.map((paragraph, index) => <p class:list={{ 'secondary-copy': index > 0 }}>{paragraph}</p>)}
+  <Sources ids={section.citations} />
+  <slot />
+</div>

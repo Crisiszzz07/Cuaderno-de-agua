@@ -1,0 +1,7 @@
+---
+import { getReferences } from '../../application/get-content.ts';
+interface Props { ids: readonly string[] }
+const { ids } = Astro.props;
+const references = getReferences(ids);
+---
+<p class="sources"><span>Fuentes:</span> {references.map((reference, index) => <><a href={reference.url}>{reference.short}</a>{index < references.length - 1 && <span aria-hidden="true"> · </span>}</>)}</p>
