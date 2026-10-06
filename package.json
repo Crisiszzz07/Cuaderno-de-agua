@@ -1,0 +1,34 @@
+{
+  "name": "ecosistemas-foticos",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.33.2"
+  },
+  "scripts": {
+    "dev": "node scripts/generate-presentation.ts && astro dev --host 0.0.0.0",
+    "build": "node scripts/generate-presentation.ts && astro build",
+    "export:pptx": "node scripts/generate-presentation.ts",
+    "preview": "astro preview --host 0.0.0.0",
+    "live": "pnpm build && node server/live.ts",
+    "serve:live": "node server/live.ts",
+    "check:deployment": "node scripts/check-deployment.ts",
+    "lint": "node scripts/lint.ts",
+    "typecheck": "astro sync && tsc --noEmit && node scripts/check-astro.ts",
+    "test": "node --test --test-isolation=none tests/*.test.ts",
+    "test:browser": "node tests/browser.ts",
+    "test:live:browser": "node tests/live-browser.ts"
+  },
+  "dependencies": {
+    "astro": "6.1.10",
+    "qrcode": "1.5.4"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "playwright": "1.63.0",
+    "@astrojs/compiler": "3.0.1",
+    "@types/node": "25.6.0"
+  }
+}
