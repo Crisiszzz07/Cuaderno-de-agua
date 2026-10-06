@@ -1,0 +1,14 @@
+<div class="live-activity" data-live-host>
+  <div class="live-intro"><div><h3>El grupo responde desde su teléfono</h3><p>Un QR, tres preguntas con puntaje y una valoración de claridad antes y después. Sin nombres ni cuentas: solo estadísticas del grupo durante tres minutos.</p></div><button class="button button-primary" type="button" data-live-create hidden>Abrir sesión de 3 min</button></div>
+  <p class="live-privacy">Solo memoria temporal. La sesión y sus estadísticas se borran al terminar; las respuestas individuales no se conservan en el servidor.</p>
+  <p data-live-host-message role="status" hidden></p>
+  <div class="live-session" data-live-session hidden>
+    <div class="live-session-heading"><h4 data-live-phase>Entrar a la sesión</h4><span class="live-clock" data-live-clock aria-label="Tiempo restante">3:00</span><button type="button" class="button button-text" data-live-end>Terminar y borrar</button></div>
+    <div class="live-lobby" data-live-lobby><div class="live-qr" data-live-qr></div><div><p>Escanea el QR o abre el enlace:</p><a data-live-join-link class="live-join-link" target="_blank" rel="noopener" aria-label="Abrir participación en una pestaña nueva"></a><p>Código de sesión: <strong data-live-code></strong></p><p data-live-address-note hidden>Para entrar desde teléfonos, abre esta página desde su dirección pública HTTPS; localhost solo funciona en este equipo.</p><p class="live-counts"><strong data-live-joined>0</strong> conexiones · <strong data-live-submitted>0</strong> respuestas completas</p><p>30 s para entrar · 105 s para responder · 45 s para comentar.</p></div></div>
+    <div data-live-statistics class="live-statistics" hidden></div>
+  </div>
+  <noscript><p>La conexión por QR necesita JavaScript. Puedes realizar la actividad local que aparece debajo.</p></noscript>
+</div>
+<script>
+  import '../interactive/live-host.ts';
+</script>

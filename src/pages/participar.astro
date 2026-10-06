@@ -1,0 +1,28 @@
+---
+import '../ui/styles/global.css';
+import '../ui/styles/live-activity.css';
+---
+<!doctype html>
+<html lang="es">
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex" /><title>Participar · Cuaderno de agua</title><link rel="icon" href="/favicon.svg" /></head>
+  <body class="participation-page">
+    <main class="participant" data-live-participant>
+      <a href="/">Cuaderno de agua</a><h1>Conectemos las ideas</h1>
+      <p>3 preguntas · hasta 3 puntos · una valoración de claridad antes y después. Sin nombres, cuentas ni clasificación de personas.</p>
+      <p class="live-privacy">Solo memoria temporal durante la sesión. No cierres ni recargues esta página mientras respondes.</p>
+      <form class="participant-code" data-live-code-form><label>Código de sesión<input type="text" name="code" pattern="[A-Fa-f0-9]{8}" minlength="8" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" required /></label><button class="button button-primary" type="submit">Entrar sin nombre</button></form>
+      <p data-participant-message role="status" hidden></p>
+      <div class="participant-session" data-participant-session hidden>
+        <div class="participant-timing"><span data-participant-phase></span><span data-participant-clock class="live-clock" aria-label="Tiempo restante"></span></div>
+        <p data-participant-waiting role="status" hidden></p>
+        <form data-participant-questions hidden><p data-participant-progress></p><div data-participant-question></div><div class="participant-actions"><button type="button" class="button button-text" data-participant-back>Anterior</button><button type="submit" class="button button-primary" data-participant-next>Continuar</button></div></form>
+        <div data-participant-result hidden></div>
+        <div data-participant-statistics class="live-statistics" hidden></div>
+      </div>
+      <noscript><p>Activa JavaScript para enviar respuestas. También puedes conversar con tu grupo y usar la actividad local del cuaderno.</p></noscript>
+    </main>
+    <script>
+      import '../ui/interactive/live-participant.ts';
+    </script>
+  </body>
+</html>
