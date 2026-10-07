@@ -73,3 +73,7 @@ El anfitrión y los teléfonos consultan la misma API una vez por segundo. Un en
 ## Autoría opcional de exportación
 
 La portada general proviene del modelo de presentación. `PrivateCover` valida el código en el servidor mediante scrypt y devuelve la autoría definida en un secreto montado; esos datos no pertenecen al contenido estático. El navegador los añade con `textContent` únicamente durante la impresión y los elimina después. La configuración privada es opcional y no cambia las reglas de la actividad por QR.
+
+## Cronómetro de exposición
+
+`ExposureClock` conserva tiempo acumulado y un reloj monotónico. `exposureTiming` calcula bloque, tiempo restante y aviso a 15 segundos sin conocer el navegador. Las dos rutas viven en `src/infrastructure/exposure-plans.ts`. La interfaz actualiza una lectura compacta y anuncia únicamente cambios relevantes; no guarda estado, no envía solicitudes y no modifica la sección activa. La impresión usa una cuadrícula de encabezado, contenido y pie para conservar las áreas de cada diapositiva.

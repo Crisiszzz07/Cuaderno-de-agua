@@ -49,6 +49,10 @@ Para las pruebas de navegador se necesita de tener instalado Chromium para ejecu
 
 ## Modo exposición
 
+El índice organiza los temas sin asignarlos a personas. «Cronómetro de exposición · 15 minutos» permite iniciar, pausar, reanudar y reiniciar el tiempo. La ruta «Guión oral» cambia de bloque a los 3:30, 7:00, 10:30 y 14:30, con 30 segundos de margen final. «Con actividad» reserva 12–15 min para participar, con cuatro bloques previos de tres minutos. La actividad de tres minutos no se añade a los 14:30 del Guión original.
+
+El aviso aparece 15 segundos antes de cerrar cada bloque, sin sonido, parpadeo ni avance automático. El tiempo se conserva al cambiar de sección o salir de pantalla completa; recargar la página lo reinicia. La lectura queda visible de forma compacta en modo exposición y en sus controles de pantalla completa.
+
 Activar el **Modo exposición** sirve para ampliar la lectura, reducir notas secundarias y mostrar el avance entre secciones. Los botones anterior y siguiente navegan sin convertir la web en diapositivas. Las fuentes siguen disponibles. El estado desaparece al recargar.
 
 El PPTX se genera automáticamente antes de `pnpm dev` y `pnpm build`, a partir del mismo modelo que la vista PDF. Después de editar contenido mientras el servidor de desarrollo está abierto, ejecuta `pnpm export:pptx` para actualizar la descarga. (aún se debe de mejorar el contenido que se genera con dicha opción)

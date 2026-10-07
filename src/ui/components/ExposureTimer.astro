@@ -1,0 +1,16 @@
+---
+import { getExposurePlans } from '../../application/exposure-timer.ts';
+const plans = getExposurePlans();
+---
+<aside class="exposure-timer container" aria-label="Cronómetro de exposición" data-timer-root hidden>
+  <details><summary>Cronómetro de exposición · 15 minutos</summary>
+    <div class="timer-settings"><label for="exposure-plan">Distribución de temas</label><select id="exposure-plan" data-timer-plan>{plans.map(plan => <option value={plan.id}>{plan.label}</option>)}</select><span data-timer-clock role="timer" aria-label="Tiempo restante de exposición" aria-live="off">15:00</span><button type="button" class="button" data-timer-toggle>Iniciar</button><button type="button" class="button button-text" data-timer-reset>Reiniciar tiempo</button></div>
+    <p data-timer-plan-description>Guión oral: cambios a los 3:30, 7:00, 10:30 y 14:30; cierre a los 15:00. Para incluir la actividad, usa la ruta de 12 + 3 minutos.</p>
+    <p data-timer-stage>Concepto y organización ecológica</p>
+  </details>
+</aside>
+<div class="timer-exposure-status" data-timer-exposure-status hidden><span data-timer-clock role="timer" aria-label="Tiempo restante de exposición" aria-live="off">15:00</span><span data-timer-stage></span><span data-timer-warning hidden>Cierre de bloque · 15 s</span><button type="button" data-timer-toggle aria-label="Iniciar cronómetro">Iniciar</button></div>
+<p class="sr-only" data-timer-announcement role="status" aria-live="polite"></p>
+<script>
+  import '../interactive/exposure-timer.ts';
+</script>
