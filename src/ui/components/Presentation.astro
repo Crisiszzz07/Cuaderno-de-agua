@@ -13,6 +13,7 @@ const slides = preparePresentation();
   {slides.map((slide, index) => <section class:list={['export-slide', { 'has-visual': slide.visual, 'reference-slide': slide.references }]} aria-labelledby={`slide-${slide.id}`}>
     <header><p>{slide.subtitle}</p><h2 id={`slide-${slide.id}`}>{slide.title}</h2></header>
     <div class="slide-body"><div class="slide-copy">{slide.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+      {slide.id === 'portada' && <div class="cover-authorship" data-cover-authorship hidden><p data-cover-institution></p><p data-cover-semester></p><h3>Integrantes</h3><ul data-cover-authors></ul></div>}
       {slide.items.length > 0 && <dl>{slide.items.map(item => <div><dt>{item.italicTitle ? <i>{item.title}</i> : item.title}</dt><dd>{item.text}</dd></div>)}</dl>}
       {slide.references && <ol class="slide-references">{slide.references.map(reference => <li><a href={reference.url}>{reference.title}</a><p>{reference.publisher} · {reference.year}</p><a class="reference-url" href={reference.url}>{reference.url}</a></li>)}</ol>}
     </div>

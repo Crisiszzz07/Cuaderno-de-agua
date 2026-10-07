@@ -12,7 +12,7 @@ export function preparePresentation(): readonly PresentationSlide[] {
   }
   const references = getReferences();
   const contentSlides: PresentationSlide[] = [
-    { id: 'portada', title: SITE_TITLE, subtitle: 'Cuaderno de agua · Exposición de 15 minutos', paragraphs: ['¿Qué ocurre con la vida acuática cuando cambia la luz?'], items: content.presentation.map(item => ({ title: `${item.person} · ${item.time}`, text: item.topic })), citationIds: ['noaa-light', 'cmecs'], visual: 'coast' },
+    { id: 'portada', title: SITE_TITLE, subtitle: 'Ecología · Universidad de Cartagena', paragraphs: ['¿Qué ocurre con la vida acuática cuando cambia la luz?', 'Una mirada a las aguas iluminadas de Colombia: fotosíntesis, redes alimentarias y conservación.'], items: [], citationIds: ['noaa-light', 'cmecs'], visual: 'coast' },
     slide(light, 'light'),
     slide(colombia, 'map'),
     { ...slide(factors, 'turbidity'), items: factors.blocks },

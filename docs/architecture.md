@@ -48,7 +48,7 @@ En pantalla completa, `exposure.ts` marca la sección activa y habilita navegaci
 
 El adaptador `src/infrastructure/export/pptx.ts` escribe un resumen editable en PresentationML (Open XML). El empaquetador ZIP usa únicamente TypeScript y archivos conocidos del proyecto. Incluye tema, master, layout, diapositivas y relaciones de enlaces; no incluye imágenes o datos de los visitantes. `scripts/generate-presentation.ts` lo genera antes del desarrollo y de la compilación. Esta ruta evita añadir una librería de exportación al navegador. Las pruebas verifican el empaquetado, las referencias y los textos editables; la compatibilidad visual con cada editor requiere abrir el archivo en ese editor.
 
-Los colores, fuentes y espacios están en `tokens.css`; `global.css` define la composición y sus adaptaciones. Los gráficos son SVG originales o formas CSS, no fotografías descargadas.
+Los colores, fuentes y espacios están en `tokens.css`; `global.css` define la composición y sus adaptaciones. Las ilustraciones usan SVG y CSS originales. El contorno de Colombia deriva de coordenadas públicas de Natural Earth; su procedencia está registrada en `docs/assets.md`.
 
 ## Herramientas de validación
 
@@ -69,3 +69,7 @@ El anfitrión y los teléfonos consultan la misma API una vez por segundo. Un en
 ## Ejecución en producción
 
 `deploy/` contiene configuración operativa, separada del contenido y la interfaz. Nginx termina HTTPS y envía web y API al contenedor en `127.0.0.1:8082`; systemd administra su arranque. El servicio exige `PUBLIC_ORIGIN` para las mutaciones y conserva las sesiones únicamente en su proceso. Una sola instancia evita repartir participantes entre memorias diferentes. `scripts/check-deployment.ts` comprueba recursos, cabeceras, redirección y salud por HTTPS después de publicar, sin crear actividades.
+
+## Autoría opcional de exportación
+
+La portada general proviene del modelo de presentación. `PrivateCover` valida el código en el servidor mediante scrypt y devuelve la autoría definida en un secreto montado; esos datos no pertenecen al contenido estático. El navegador los añade con `textContent` únicamente durante la impresión y los elimina después. La configuración privada es opcional y no cambia las reglas de la actividad por QR.

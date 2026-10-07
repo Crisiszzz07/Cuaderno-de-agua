@@ -17,3 +17,9 @@ Las fuentes científicas son enlaces a sitios externos. Al visitarlos se aplican
 Para informar una vulnerabilidad, usa el mecanismo privado de reporte de seguridad del repositorio, si su alojamiento lo ofrece. Si no está habilitado, solicita en un issue únicamente un canal privado, sin describir cómo explotar el problema ni adjuntar datos sensibles.
 
 IMPORTANTE: Revisar que no se publiquen accesos de sesiones, credenciales, archivos privados, registros con información personal ni pruebas contra visitantes reales. Un reporte útil explica el componente afectado, el impacto y una reproducción mínima y segura. Las correcciones deben conservar el funcionamiento editorial estático, la ausencia de secretos y el descarte automático de sesiones.
+
+## Personalización opcional del PDF
+
+La portada con autoría requiere un archivo privado montado como secreto de Podman. Contiene los nombres autorizados y un hash scrypt con sal del código de acceso; no se incorpora al repositorio, al HTML construido ni a la imagen. El servidor exige el origen HTTPS exacto, limita intentos y responde sin caché. No registra el código ni las solicitudes. Los datos se incorporan temporalmente a la impresión y no se guardan en almacenamiento del navegador.
+
+Esta función no solicita nombres a quienes participan en la actividad: usa únicamente la configuración proporcionada por quien administra el sitio. Un código académico puede ser conocido o predecible; para mayor resistencia puede sustituirse por una clave aleatoria. La descarga personalizada contiene nombres y su propietario decide cómo compartirla. La protección de generación no impide copiar un PDF obtenido legítimamente.

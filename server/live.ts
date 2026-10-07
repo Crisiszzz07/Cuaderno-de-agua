@@ -4,6 +4,7 @@ import { LiveActivity } from '../src/application/live-activity.ts';
 import { MemoryLiveStore } from '../src/infrastructure/memory-live-store.ts';
 import { liveQuestions } from '../src/infrastructure/live-questions.ts';
 import { createLiveHandler } from './live-http.ts';
+import { loadPrivateCover } from './private-cover.ts';
 
 const port = Number(process.env.PORT ?? 8080);
 const host = process.env.HOST ?? '0.0.0.0';
@@ -12,7 +13,9 @@ const epoch = Date.now();
 const started = performance.now();
 const clock = () => epoch + performance.now() - started;
 const activity = new LiveActivity(new MemoryLiveStore(), liveQuestions, clock, () => randomBytes(24).toString('hex'));
-const server = createServer(createLiveHandler(activity, 'dist', process.env.PUBLIC_ORIGIN));
+if (process.env.PRIVATE_COVER_FILE && !process.env.PUBLIC_ORIGIN) throw new Error('La portada privada requiere PUBLIC_ORIGIN con HTTPS.');
+const privateCover = await loadPrivateCover(process.env.PRIVATE_COVER_FILE);
+const server = createServer(createLiveHandler(activity, 'dist', process.env.PUBLIC_ORIGIN, privateCover));
 server.requestTimeout = 10_000;
 server.headersTimeout = 10_000;
 const cleanup = setInterval(() => activity.purge(), 1000);

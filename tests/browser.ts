@@ -14,6 +14,13 @@ const context = await browser.newContext({ reducedMotion: 'reduce' });
 await context.route('**/*', async route => {
   const url = new URL(route.request().url());
   assert.equal(url.hostname, 'foticos.test', `Solicitud externa: ${url.hostname}`);
+  if (url.pathname === '/api/private-cover') {
+    assert.equal(route.request().method(), 'POST');
+    assert.equal(url.search, '');
+    const payload = route.request().postDataJSON() as { code: string };
+    await route.fulfill({ status: payload.code === 'fixture-cover-code' ? 200 : 403, contentType: 'application/json', headers: { 'Cache-Control': 'no-store' }, body: JSON.stringify(payload.code === 'fixture-cover-code' ? { institution: 'Universidad de prueba', semester: 'Semestre de prueba', authors: ['Autor de prueba'] } : { error: 'Acceso denegado' }) });
+    return;
+  }
   const path = decodeURIComponent(url.pathname);
   const target = resolve(directory, `.${path.endsWith('/') ? `${path}index.html` : path}`);
   assert.ok(target.startsWith(`${directory}${sep}`));
@@ -128,9 +135,23 @@ try {
   assert.equal(await page.evaluate(() => localStorage.length + sessionStorage.length), 0);
 
   const exported = await context.newPage();
-  await exported.goto('http://foticos.test/exposicion/');
+  await exported.goto('https://foticos.test/exposicion/');
   assert.equal(await exported.locator('.export-slide').count(), preparePresentation().length);
+  assert.equal(await exported.locator('[data-cover-authorship]').isVisible(), false);
   await exported.evaluate(() => { window.print = () => { document.body.dataset.printRequested = 'true'; }; });
+  await exported.getByRole('button', { name: 'PDF con autoría', exact: true }).click();
+  await exported.locator('[data-cover-code]').fill('incorrect-code');
+  await exported.getByRole('button', { name: 'Validar e imprimir', exact: true }).click();
+  await exported.getByText('El código no permite acceder a esta portada.', { exact: true }).waitFor();
+  assert.equal(await exported.locator('[data-cover-authorship]').isVisible(), false);
+  await exported.locator('[data-cover-code]').fill('fixture-cover-code');
+  await exported.getByRole('button', { name: 'Validar e imprimir', exact: true }).click();
+  await exported.locator('[data-cover-authors]').getByText('Autor de prueba', { exact: true }).waitFor();
+  assert.equal(await exported.locator('[data-cover-code]').inputValue(), '');
+  assert.equal(await exported.evaluate(() => localStorage.length + sessionStorage.length), 0);
+  await exported.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+  assert.equal(await exported.locator('[data-cover-authorship]').isVisible(), false);
+  assert.equal(await exported.locator('[data-cover-authors]').textContent(), '');
   await exported.getByRole('button', { name: 'Guardar PDF' }).click();
   assert.equal(await exported.locator('body').getAttribute('data-print-requested'), 'true');
   await exported.emulateMedia({ media: 'print' });
@@ -159,7 +180,7 @@ try {
   assert.equal(await offline.getByRole('button', { name: 'Modo exposición' }).count(), 0);
   await offline.locator('.offline-explanation').first().locator('summary').click();
   assert.equal(await offline.locator('.offline-explanation').first().locator('p').first().isVisible(), true);
-  console.log('Navegador: 7 tamaños, teclado, actividad, animaciones pausables, pantalla completa sin barras, PPTX, PDF y sin JavaScript. Archivos en test-results/revision-motion/.');
+  console.log('Navegador: 7 tamaños, teclado, actividad, animaciones, pantalla completa, PPTX, portada PDF general y privada, limpieza tras impresión y sin JavaScript. Archivos en test-results/revision-motion/.');
 } finally {
   await browser.close();
 }

@@ -106,3 +106,27 @@ Para actualizarlo, vuelve a construir la imagen y reemplaza el contenedor. No ha
 Una respuesta `502` del proxy requiere comprobar primero la salud del servicio en loopback y luego las reglas de red y la política de SELinux. No se debe desactivar SELinux para resolver un problema del proxy. Antes de recargar Nginx, ejecutar `nginx -t`.
 
 Los criterios de revisión funcional y de despliegue están en [validación](validation.md).
+
+## Portada con autoría, opcional
+
+La portada general del PDF y del PPTX contiene el tema, Ecología y la Universidad de Cartagena. La opción «PDF con autoría» permite imprimir una portada personalizada después de validar un código por HTTPS. La versión estática conserva la portada general; la personalización requiere el servicio Node.
+
+Para preparar datos privados en una terminal de desarrollo:
+
+```bash
+pnpm configure:cover
+```
+
+El comando pide el código sin mostrarlo y solicita integrantes, universidad y semestre. Guarda un hash con sal y los datos en `.local/private-cover.json`, con permisos de lectura y escritura únicamente para su propietario. La carpeta está excluida de Git y del contexto del contenedor. El archivo no debe publicarse ni incluirse en una imagen.
+
+En la VM, transferir el archivo por un canal privado y crear un secreto de Podman usando el mismo usuario que administra el servicio:
+
+```bash
+podman secret create cuaderno-private-cover /RUTA/PRIVADA/private-cover.json
+```
+
+La plantilla `deploy/private-cover.override.conf` permite montar ese secreto en `/app/runtime-secrets/private-cover.json` y definir `PRIVATE_COVER_FILE`. Se instala como fragmento de systemd, adaptando dominio y puerto al servicio existente. Es necesario reconstruir la imagen actual antes de activarla: el Containerfile prepara el punto de montaje dentro del contenedor de solo lectura. Los datos no se copian durante el build. La personalización es opcional; sin el secreto, el sitio y la actividad funcionan y la portada general sigue disponible.
+
+La API exige el origen HTTPS configurado y limita la validación a cinco solicitudes por minuto para toda la instancia, además del límite del proxy. El código no se envía en direcciones URL ni se devuelve al navegador. Nombres y semestre se entregan solo tras validarlo, sin cookies ni caché, y se retiran de la página después de imprimir. El PDF guardado contiene esa autoría y puede ser compartido por quien lo descarga: la protección controla el acceso a la generación, no la redistribución del archivo.
+
+Un identificador académico no ofrece la misma resistencia que un secreto aleatorio largo. El administrador puede cambiar el código mediante una nueva configuración privada y reemplazar el secreto fuera del repositorio.

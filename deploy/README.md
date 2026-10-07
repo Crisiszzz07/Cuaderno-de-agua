@@ -89,3 +89,5 @@ sudo podman build --pull=always -t localhost/ecosistemas-foticos:latest -f Conta
 Reinicia el servicio solo si la construcción termina correctamente y vuelve a comprobar salud y HTTPS. Si falla, detén el servicio, etiqueta la imagen `previous` como `latest` y vuelve a arrancarlo. Conserva también el respaldo de la configuración del servidor. No hay respuestas persistentes que migrar.
 
 Consulta [despliegue general](../docs/deployment.md), [seguridad](../SECURITY.md) y [validación](../docs/validation.md). Las opciones se apoyan en la documentación oficial de [Podman](https://docs.podman.io/en/stable/markdown/podman-run.1.html), [Nginx](https://nginx.org/en/docs/http/ngx_http_proxy_module.html) y [Certbot](https://eff-certbot.readthedocs.io/en/stable/using.html).
+
+Para personalizar la portada del PDF, consultar la [configuración opcional de autoría](../docs/deployment.md#portada-con-autoría-opcional). El fragmento `private-cover.override.conf` requiere crear primero el secreto y conservar el dominio y puerto del despliegue existente.

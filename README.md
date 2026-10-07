@@ -83,3 +83,5 @@ La estructura se explica en [arquitectura](docs/architecture.md). Para proponer 
 ## Despliegue en un servidor
 
 Las plantillas de [deploy/](deploy/README.md) permiten ejecutar el sitio con Podman, systemd y Nginx bajo HTTPS. Configura tu dominio y comprueba el despliegue con `pnpm check:deployment -- https://example.org`. Los certificados y ajustes propios del servidor se gestionan fuera del repositorio.
+
+La exportación pública comienza con una portada de Ecología y la Universidad de Cartagena, sin reparto por integrantes. «PDF con autoría» es una opción protegida y requiere configuración privada del servidor; su preparación está documentada en [despliegue](docs/deployment.md#portada-con-autoría-opcional). Los datos personales y el código de acceso no se incluyen en los archivos públicos.

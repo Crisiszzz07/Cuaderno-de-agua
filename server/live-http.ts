@@ -3,6 +3,7 @@ import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import type { LiveActivity } from '../src/application/live-activity.ts';
 import { LiveActivityError } from '../src/application/live-activity.ts';
+import type { PrivateCover } from './private-cover.ts';
 
 const POLICY = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'";
 const MIME: Record<string, string> = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation' };
@@ -29,7 +30,7 @@ function json(response: ServerResponse, status: number, value: unknown) {
   response.end(JSON.stringify(value));
 }
 
-export function createLiveHandler(activity: LiveActivity, directory: string, publicOrigin?: string) {
+export function createLiveHandler(activity: LiveActivity, directory: string, publicOrigin?: string, privateCover?: PrivateCover) {
   if (publicOrigin) {
     const configured = new URL(publicOrigin);
     if (configured.protocol !== 'https:' || configured.origin !== publicOrigin) throw new Error('PUBLIC_ORIGIN debe ser un origen HTTPS sin ruta ni barra final.');
@@ -44,6 +45,13 @@ export function createLiveHandler(activity: LiveActivity, directory: string, pub
       const url = new URL(request.url ?? '/', 'http://internal.invalid');
       const path = url.pathname;
       const method = request.method ?? 'GET';
+      if (path === '/api/private-cover') {
+        if (method !== 'POST') throw new LiveActivityError(405, 'Método no permitido.');
+        if (!privateCover || !publicOrigin) throw new LiveActivityError(503, 'La portada con autoría no está disponible. Puedes guardar la portada general.');
+        if (request.headers.origin !== publicOrigin || request.headers.host !== new URL(publicOrigin).host) throw new LiveActivityError(403, 'La solicitud debe venir del sitio público configurado.');
+        json(response, 200, await privateCover.authorize(await readJson(request)));
+        return;
+      }
       if (path.startsWith('/api/live')) {
         if (method !== 'GET') {
           const origin = request.headers.origin;

@@ -13,6 +13,7 @@ RUN pnpm build
 FROM docker.io/library/node:24-alpine AS serve
 WORKDIR /app
 ENV NODE_ENV=production
+RUN mkdir -p /app/runtime-secrets && touch /app/runtime-secrets/private-cover.json && chown -R node:node /app/runtime-secrets
 COPY --from=build /app/dist ./dist
 COPY package.json ./
 COPY server ./server

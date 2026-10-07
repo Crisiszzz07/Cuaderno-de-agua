@@ -1,16 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
+import { scryptSync } from 'node:crypto';
+import { PrivateCover } from '../server/private-cover.ts';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { LiveActivity } from '../src/application/live-activity.ts';
 import { MemoryLiveStore } from '../src/infrastructure/memory-live-store.ts';
 import { liveQuestions } from '../src/infrastructure/live-questions.ts';
 import { createLiveHandler } from '../server/live-http.ts';
 
-function setup(publicOrigin?: string) {
+function setup(publicOrigin?: string, coverEnabled = false) {
   let time = 0; let counter = 0;
   const activity = new LiveActivity(new MemoryLiveStore(), liveQuestions, () => time, () => (++counter).toString(16).padStart(8, '0') + 'b'.repeat(40));
-  const handler = createLiveHandler(activity, 'public', publicOrigin);
+  const salt = 'a'.repeat(32);
+  const cover = coverEnabled ? new PrivateCover({ salt, hash: scryptSync('demo-only-test-code', salt, 64).toString('hex'), authorship: { institution: 'Universidad de prueba', semester: 'Semestre de prueba', authors: ['Autor de prueba'] } }, () => time) : undefined;
+  const handler = createLiveHandler(activity, 'public', publicOrigin, cover);
   async function call(path: string, method = 'GET', body?: unknown, key?: string, origin = 'https://foticos.test', raw?: string, host = 'foticos.test') {
     const request = Readable.from(body === undefined && raw === undefined ? [] : [raw ?? JSON.stringify(body)]) as unknown as IncomingMessage;
     request.url = path; request.method = method;
@@ -82,4 +86,20 @@ test('el servidor sirve recursos locales, protege rutas y no habilita solicitude
   assert.equal((await call('/%00')).status, 400);
   assert.equal((await call('/no-existe')).status, 404);
   assert.equal((await call('/favicon.svg', 'POST', {})).status, 405);
+});
+
+test('la portada privada solo entrega autoría tras validar origen y código, sin caché ni cookies', async () => {
+  const { call } = setup('https://foticos.test', true);
+  assert.equal((await call('/api/private-cover')).status, 405);
+  assert.equal((await call('/api/private-cover', 'POST', { code: 'demo-only-test-code' }, undefined, 'https://another.test')).status, 403);
+  const denied = await call('/api/private-cover', 'POST', { code: 'incorrect-code' });
+  assert.equal(denied.status, 403);
+  assert.ok(!denied.body.includes('Autor de prueba'));
+  const allowed = await call('/api/private-cover', 'POST', { code: 'demo-only-test-code' });
+  assert.equal(allowed.status, 200);
+  assert.deepEqual(allowed.json().authors, ['Autor de prueba']);
+  assert.equal(allowed.headers['cache-control'], 'no-store');
+  assert.ok(!allowed.headers['set-cookie']);
+  assert.ok(!allowed.body.includes('demo-only-test-code') && !allowed.body.includes('hash'));
+  assert.equal((await setup('https://foticos.test').call('/api/private-cover', 'POST', { code: 'demo-only-test-code' })).status, 503);
 });

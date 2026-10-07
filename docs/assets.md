@@ -1,12 +1,12 @@
 # Recursos visuales y atribución
 
-Los gráficos de la página son originales, construidos en SVG o CSS. El proyecto no distribuye fotografías ni capas cartográficas de terceros. La licencia del proyecto y de sus recursos originales está pendiente de decisión por el propietario. Los avisos de las dependencias se conservan por separado.
+Las ilustraciones y los diagramas de la página son originales, construidos en SVG o CSS. El proyecto no distribuye fotografías. El contorno continental utiliza coordenadas públicas de Natural Earth. La licencia del proyecto y de sus recursos originales está pendiente de decisión por el propietario. Los avisos de las dependencias se conservan por separado.
 
 | Recurso | Archivo | Procedencia y alcance |
 | --- | --- | --- |
 | Costa con capas de papel | `src/ui/components/CoastalScene.astro` | SVG original. Escena conceptual, no una costa identificable ni una medición. La fotosíntesis en aguas iluminadas se apoya en NOAA NOS/NCEI. |
 | Columna de luz | `src/ui/components/LightColumn.astro` | Composición original en HTML/CSS, basada en las definiciones de [NOAA](https://oceanservice.noaa.gov/facts/light_travel.html) y [CMECS](https://www.ncei.noaa.gov/waf/data-atlas-waf/products/html/environmentalPlates/CMECS_PhoticQualityLayerGuidance.htm). Sin escala. |
-| Colombia | `src/ui/components/ColombiaMap.astro` | Silueta original esquemática, no una capa geográfica. Nombres de ámbitos y áreas contrastados con SIAC e IDEAM. Sin escala, límites oficiales ni estimaciones de extensión. El recuadro insular está desplazado. |
+| Colombia | `src/ui/components/ColombiaMap.astro` | Contorno continental derivado de [Natural Earth, Admin 0 Countries 1:110m](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/), [dominio público](https://www.naturalearthdata.com/about/terms-of-use/). Coordenadas originales WGS84 en `src/infrastructure/colombia-outline.ts`, extraídas de [su GeoJSON](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson), consulta del 7 de octubre de 2026. Transformación lineal de longitud/latitud y traducción a SVG; sin simplificación adicional. Los ríos, etiquetas y recuadro insular siguen siendo esquemáticos; no representa límites oficiales, superficies fóticas ni todas las islas. |
 | Turbidez | `src/ui/components/Turbidity.astro` | Formas CSS originales. Comparación cualitativa a partir de CMECS; no contiene datos de muestreo. |
 | Red trófica | `src/ui/components/FoodWeb.astro` | Diagrama original, basado en NOAA Education y su material estuarino. La versión móvil usa texto y conectores legibles. No reconstruye una red observada en un sitio específico. |
 | Corales | `src/ui/components/CoralDrawing.astro` | Dibujos originales de ramificación. Son esquemas de forma, no fotografías ni una clave de identificación. Los ejemplos de especies están respaldados por PNN. |

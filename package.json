@@ -15,6 +15,7 @@
     "live": "pnpm build && node server/live.ts",
     "serve:live": "node server/live.ts",
     "check:deployment": "node scripts/check-deployment.ts",
+    "configure:cover": "node scripts/create-private-cover.ts",
     "lint": "node scripts/lint.ts",
     "typecheck": "astro sync && tsc --noEmit && node scripts/check-astro.ts",
     "test": "node --test --test-isolation=none tests/*.test.ts",

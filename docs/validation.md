@@ -37,6 +37,8 @@ pnpm test:live:browser
 
 La primera prueba revisa tamaños de pantalla, actividad local, controles de animación, pantalla completa y exportación PDF. La segunda simula un anfitrión y dos participantes contra el adaptador HTTP, con un reloj controlado para comprobar las fases sin esperar tres minutos reales.
 
+La revisión de exportación comprueba también que la portada general no incluya el reparto por integrantes. La prueba de navegador simula acceso denegado y autorizado a la portada personalizada, eliminación del código del campo y limpieza de autoría después de imprimir. Las pruebas del servicio verifican origen HTTPS, hash, límite de intentos y ausencia de datos privados en respuestas denegadas. El ensayo final requiere el secreto instalado y un navegador real.
+
 Las capturas y archivos de comprobación se guardan en `test-results/`, excluido del repositorio. Las nuevas capturas de interfaz se escriben en `test-results/revision-motion/`; las de participación, en `test-results/live/`. La simulación no sustituye una sesión con teléfonos reales y el servidor publicado.
 
 ## Revisión manual de la interfaz
