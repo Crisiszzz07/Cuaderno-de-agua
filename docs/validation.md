@@ -22,7 +22,7 @@ node scripts/check-built-html.ts
 | `build` | Generación de páginas estáticas y presentación PPTX |
 | `check-built-html` | Anclas, identificadores, controles accesibles, nombres científicos y recursos locales del sitio construido |
 
-Las pruebas de contraste comprueban las combinaciones definidas en la paleta. La revisión manual debe considerar también el tamaño del texto, el foco, el zoom y cualquier superficie añadida al diseño.
+Las pruebas de contraste comprueban las combinaciones definidas en la paleta. La revisión manual debe considerar también el tamaño del texto, el foco, el zoom y cualquier superficie añadida al diseño. Las pruebas del cronómetro verifican límites de ambas rutas, aviso a 15 segundos, pausa, reanudación y fin sin valores negativos.
 
 ## Pruebas de navegador
 
@@ -52,7 +52,7 @@ Las capturas y archivos de comprobación se guardan en `test-results/`, excluido
 
 ## Exportaciones
 
-El PDF de `/exposicion/` debe contener 16 diapositivas, sin texto recortado. Para imprimir: formato horizontal, gráficos de fondo activados, márgenes y encabezados según las instrucciones de la página. Revisar el archivo resultante, no únicamente la vista del navegador.
+El PDF de `/exposicion/` debe contener 16 diapositivas, sin texto recortado. Para imprimir: formato horizontal, gráficos de fondo activados, márgenes y encabezados según las instrucciones de la página. Revisar el archivo resultante, no únicamente la vista del navegador. Las pruebas de navegador comprueban límites de texto y separación entre encabezado, contenido y pie, y generan capturas específicas de las diapositivas 2, 6, 10, 14 y 16. La nota del esquema de luz debe quedar completa y las referencias no deben cruzarse.
 
 Abrir el PPTX en el editor que se utilizará. Comprobar distribución, textos editables, cursivas y enlaces de fuentes, y confirmar que no solicita reparar el archivo. Las pruebas del empaquetado no garantizan una representación idéntica en PowerPoint y LibreOffice.  (posible mejora a futuro)
 

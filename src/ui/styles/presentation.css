@@ -44,33 +44,58 @@
 }
 @media print {
   @page { size: 297mm 167.0625mm; margin: 0; }
-  html { font-size: 16px; overflow: visible; }
-  .presentation-page { background: var(--color-paper); overflow: visible; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  .presentation-page::before, .export-header { display: none; }
+  html { font-size: 16px; overflow: visible; scroll-behavior: auto; }
+  body.presentation-page { margin: 0; background: var(--color-paper); overflow: visible; line-height: 1.4; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .presentation-page::before, .export-header { display: none !important; }
   .presentation-deck { max-width: none; padding: 0; margin: 0; }
-  .export-slide { width: 297mm; height: 167.0625mm; min-height: 0; padding: 10mm 12mm; margin: 0; border: 0; break-after: page; break-inside: avoid; }
+  .export-slide { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 4mm; width: 297mm; height: 167.0625mm; min-height: 0; padding: 9mm 11mm; margin: 0; border: 0; break-after: page; break-inside: avoid; }
   .export-slide:last-child { break-after: auto; }
-  .export-slide h2 { font-size: 26pt; margin-bottom: 5mm; }
-  .export-slide > header > p { font-size: 10pt; }
-  .slide-body { font-size: 12pt; }
-  .has-visual .slide-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 8mm; }
-  .slide-copy p { margin-bottom: 3mm; line-height: 1.5; }
-  .slide-copy dl { margin: 3mm 0; }
-  .slide-copy dl > div { margin-bottom: 3mm; }
-  .slide-copy dt { font-size: 12pt; }
-  .slide-copy dd { font-size: 11pt; line-height: 1.45; }
-  .slide-visual svg { max-height: 104mm; }
-  .slide-visual .map-figure svg { max-height: 72mm; }
-  .slide-visual .food-figure svg { max-height: 85mm; }
-  .slide-visual .water-zone { min-height: 29mm; padding: 3mm; }
-  .slide-visual .zone-content p { font-size: 10pt; }
-  .slide-visual .water-sample { min-height: 87mm; }
+  .export-slide > header, .export-slide > footer { min-width: 0; margin: 0; }
+  .export-slide h2 { font-size: 23pt; line-height: 1.12; margin: 0; overflow-wrap: normal; }
+  .export-slide > header > p { font-size: 9pt; line-height: 1.3; margin: 0 0 2mm; max-width: none; }
+  .export-slide .slide-body { min-width: 0; font-size: 11pt; line-height: 1.4; }
+  .export-slide .slide-copy, .export-slide .slide-visual { min-width: 0; }
+  .has-visual .slide-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 7mm; align-items: start; }
+  .export-slide .slide-copy p { font-size: 11pt; line-height: 1.4; max-width: none; margin: 0 0 3mm; }
+  .export-slide .slide-copy p + p { margin-top: 0; }
+  .export-slide .slide-copy dl { margin: 3mm 0 0; }
+  .export-slide .slide-copy dl > div { margin-bottom: 3mm; break-inside: avoid; }
+  .export-slide .slide-copy dt { font-size: 11pt; line-height: 1.25; }
+  .export-slide .slide-copy dd { font-size: 10.5pt; line-height: 1.4; margin: 1mm 0 0; }
+  .export-slide .slide-visual figure { margin: 0; }
+  .slide-visual svg { max-height: 94mm; }
+  .slide-visual .map-figure svg { max-height: 57mm; }
+  .slide-visual .map-labels, .slide-visual .map-inset text { font-size: 25px; }
+  .slide-visual .map-inset .inset-note { font-size: 17px; }
+  .slide-visual .food-figure svg { max-height: 83mm; }
+  .slide-visual .figure-heading { margin: 0 0 2mm; gap: 2mm; }
+  .slide-visual .figure-heading h3 { font-size: 10pt; }
+  .slide-visual .figure-heading > span { font-size: 8pt; }
+  .slide-visual .water-zone { min-height: 0; height: 23mm; padding: 2.5mm; }
+  .slide-visual .zone-content { gap: 3mm; }
+  .slide-visual .zone-order { font-size: 17pt; }
+  .slide-visual .zone-content h4 { font-size: 11pt; line-height: 1.2; margin: 0 0 1mm; }
+  .slide-visual .zone-content p { font-size: 9pt; line-height: 1.25; margin: 0; }
+  .slide-visual .zone-label { font-size: 8pt; margin-top: 1mm; padding-top: .5mm; }
+  .slide-visual .water-column { box-shadow: 1mm 1mm 0 var(--color-sand); }
+  .slide-visual .water-sample { min-height: 76mm; }
+  .slide-visual .water-sample p { font-size: 9pt; }
   .slide-visual .food-mobile { display: none; }
   .slide-visual .food-figure svg { display: block; }
-  .slide-visual figcaption { font-size: 8pt; margin-top: 2mm; }
-  .export-slide > footer { margin-top: 3mm; padding-top: 2mm; font-size: 8pt; }
-  .slide-references { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4mm 8mm; margin-top: 0; }
-  .slide-references li { font-size: 10pt; line-height: 1.4; }
-  .slide-references li p { font-size: 8pt; }
-  .reference-url { font-size: 7pt; }
+  .slide-visual figcaption { font-size: 8pt; line-height: 1.35; margin-top: 2mm; max-width: none; }
+  .slide-visual .map-functional-note { font-size: 9pt; line-height: 1.35; margin: 0 0 2mm; }
+  .slide-visual .map-legend { font-size: 8pt; margin: 2mm 0; gap: 1mm 3mm; }
+  .export-slide > footer { padding-top: 2mm; font-size: 8pt; line-height: 1.3; align-items: end; }
+  .export-slide > footer > p { max-width: none; margin: 0; }
+  .export-slide .slide-references { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 3mm 7mm; margin: 0; padding-left: 5mm; }
+  .export-slide .slide-references li { min-width: 0; font-size: 9.5pt; line-height: 1.25; break-inside: avoid; overflow-wrap: anywhere; }
+  .export-slide .slide-references li p { font-size: 8pt; line-height: 1.3; margin: 1mm 0; }
+  .export-slide .reference-url { display: block; font-size: 8pt; line-height: 1.25; overflow-wrap: anywhere; }
+  .export-slide .slide-activity-link { overflow-wrap: anywhere; }
+  .export-slide .slide-corals { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: 2mm; }
+  .slide-corals .coral-drawing { height: 34mm; margin: 0; }
+  .slide-corals > p { font-size: 9pt; grid-row: 2; }
+  .cover-authorship { margin-top: 3mm; padding-top: 2mm; }
+  .cover-authorship h3 { font-size: 10pt; }
+  .cover-authorship ul { font-size: 10pt; line-height: 1.35; margin: 1mm 0; }
 }

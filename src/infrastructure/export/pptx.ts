@@ -41,7 +41,7 @@ export function createPresentationPptx(slides: readonly PresentationSlide[], cit
   add('ppt/theme/theme1.xml', documentXml(`<a:theme xmlns:a="${A}" name="Cuaderno de agua"><a:themeElements><a:clrScheme name="Agua">${Object.entries(colors).map(([key, value]) => `<a:${key}><a:srgbClr val="${value}"/></a:${key}>`).join('')}</a:clrScheme><a:fontScheme name="Legible"><a:majorFont><a:latin typeface="Calibri"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="Calibri"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="Sobrio"><a:fillStyleLst>${solid.repeat(3)}</a:fillStyleLst><a:lnStyleLst>${line.repeat(3)}</a:lnStyleLst><a:effectStyleLst>${'<a:effectStyle><a:effectLst/></a:effectStyle>'.repeat(3)}</a:effectStyleLst><a:bgFillStyleLst>${solid.repeat(3)}</a:bgFillStyleLst></a:fmtScheme></a:themeElements></a:theme>`));
 
   slides.forEach((slide, index) => {
-    const links = [...new Set([...(slide.references?.map(reference => reference.url) ?? []), ...slide.citationIds.map(id => {
+    const links = [...new Set([...(slide.activityLink ? [slide.activityLink] : []), ...(slide.references?.map(reference => reference.url) ?? []), ...slide.citationIds.map(id => {
       const citation = citations.find(item => item.id === id);
       if (!citation) throw new Error(`Referencia desconocida: ${id}`);
       return citation.url;
@@ -51,14 +51,15 @@ export function createPresentationPptx(slides: readonly PresentationSlide[], cit
     shapes += textBox(3, 'Título', .65, .8, 12, .9, [{ text: slide.title, size: 30, bold: true }]);
     if (slide.references) {
       slide.references.forEach((reference, position) => {
-        shapes += textBox(10 + position, 'Referencia', position < 4 ? .65 : 6.8, 1.9 + (position % 4) * 1.17, 5.8, 1.1, [
-          { text: reference.title, size: 13, bold: true, link: linkId(reference.url) },
-          { text: `${reference.publisher} · ${reference.year}`, size: 10 },
-          { text: reference.url, size: 8, link: linkId(reference.url) },
+        shapes += textBox(10 + position, 'Referencia', position < 5 ? .65 : 6.8, 1.9 + (position % 5) * .95, 5.8, .9, [
+          { text: reference.title, size: 11, bold: true, link: linkId(reference.url) },
+          { text: `${reference.publisher} · ${reference.year}`, size: 9 },
+          { text: `${new URL(reference.url).hostname} · Abrir fuente`, size: 8, link: linkId(reference.url) },
         ]);
       });
     } else {
       const paragraphs: Paragraph[] = slide.paragraphs.map(text => ({ text, size: 18 }));
+      if (slide.activityLink) paragraphs.push({ text: slide.activityLink, size: 15, link: linkId(slide.activityLink) });
       slide.items.forEach(item => { paragraphs.push({ text: item.title, bold: true, italic: item.italicTitle, size: 18 }, { text: item.text, size: 16 }); });
       shapes += textBox(4, 'Contenido editable', .65, 1.85, slide.visual === 'light' ? 7.3 : 12, 4.85, paragraphs);
       if (slide.visual === 'light') {

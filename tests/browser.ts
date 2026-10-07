@@ -134,6 +134,28 @@ try {
   assert.deepEqual(errors, []);
   assert.equal(await page.evaluate(() => localStorage.length + sessionStorage.length), 0);
 
+  const timed = await context.newPage();
+  await timed.clock.install();
+  await timed.goto('http://foticos.test/');
+  await timed.getByText('Cronómetro de exposición · 15 minutos', { exact: true }).click();
+  await timed.locator('[data-timer-root] [data-timer-toggle]').click();
+  await timed.clock.fastForward(195_000);
+  assert.equal(await timed.locator('[data-timer-root] [data-timer-clock]').textContent(), '11:45');
+  assert.match(await timed.locator('[data-timer-announcement]').textContent() ?? '', /15 segundos/);
+  await timed.clock.fastForward(15_000);
+  assert.equal(await timed.locator('[data-timer-root] [data-timer-stage]').textContent(), 'Colombia y condiciones ambientales');
+  await timed.locator('[data-timer-root] [data-timer-toggle]').click();
+  await timed.clock.fastForward(60_000);
+  assert.equal(await timed.locator('[data-timer-root] [data-timer-clock]').textContent(), '11:30');
+  await timed.locator('[data-timer-reset]').click();
+  await timed.locator('[data-timer-plan]').selectOption('activity');
+  await timed.locator('[data-timer-root] [data-timer-toggle]').click();
+  await timed.clock.fastForward(165_000);
+  assert.match(await timed.locator('[data-timer-announcement]').textContent() ?? '', /15 segundos/);
+  await timed.getByRole('button', { name: 'Modo exposición' }).click();
+  assert.equal(await timed.locator('[data-timer-exposure-status]').isVisible(), true);
+  await timed.close();
+
   const exported = await context.newPage();
   await exported.goto('https://foticos.test/exposicion/');
   assert.equal(await exported.locator('.export-slide').count(), preparePresentation().length);
@@ -158,9 +180,28 @@ try {
   await exported.setViewportSize({ width: 1123, height: 632 });
   const overflowingSlides = await exported.locator('.export-slide').evaluateAll(slides => slides.filter(slide => {
     const box = slide.getBoundingClientRect();
-    return [...slide.querySelectorAll('header, .slide-body, footer, .slide-copy, .slide-visual')].some(element => element.getBoundingClientRect().bottom > box.bottom + 1);
+    const header = slide.querySelector('header')!.getBoundingClientRect();
+    const body = slide.querySelector('.slide-body')!.getBoundingClientRect();
+    const footer = slide.querySelector('footer')!.getBoundingClientRect();
+    if (header.bottom > body.top + 1 || body.bottom > footer.top + 1) return true;
+    const walker = document.createTreeWalker(slide, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (!node.textContent?.trim() || node.parentElement?.closest('svg, [hidden]')) continue;
+      const range = document.createRange(); range.selectNodeContents(node);
+      for (const textBox of range.getClientRects()) {
+        if (textBox.width && (textBox.left < box.left + 1 || textBox.top < box.top + 1 || textBox.right > box.right - 1 || textBox.bottom > box.bottom - 1)) return true;
+        if (node.parentElement?.closest('.slide-body') && (textBox.top < body.top - 1 || textBox.bottom > footer.top - 1)) return true;
+      }
+    }
+    return [...slide.querySelectorAll('.slide-references li, figcaption')].some(element => {
+      const bounds = element.getBoundingClientRect();
+      return bounds.width > 0 && bounds.bottom > footer.top - 1;
+    });
   }).map(slide => slide.querySelector('h2')?.textContent));
   assert.deepEqual(overflowingSlides, [], 'Texto o gráficos fuera de la diapositiva');
+  for (const number of [2, 6, 10, 14, 16]) {
+    await exported.locator('.export-slide').nth(number - 1).screenshot({ path: `${output}/diapositiva-${number}.png` });
+  }
   const pdf = await exported.pdf({ path: `${output}/ecosistemas-foticos.pdf`, preferCSSPageSize: true, printBackground: true });
   const count = (pdf.toString('latin1').match(/\/Type\s*\/Page\b/g) ?? []).length;
   assert.equal(count, preparePresentation().length, 'Una página PDF por diapositiva');
