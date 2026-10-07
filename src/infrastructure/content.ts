@@ -9,7 +9,8 @@ export const sections = [
     'La franja iluminada está en el mar Caribe colombiano, incluido San Andrés y Providencia, y en el océano Pacífico colombiano.',
     'También está en las aguas superficiales de ríos, ciénagas, lagunas, humedales y embalses. Las cinco grandes áreas hidrográficas son Magdalena–Cauca, Caribe, Pacífico, Orinoco y Amazonas.',
     'En la ciénaga de Ayapel se ha estudiado cómo cambia el fitoplancton entre períodos de inundación y sequía. Es un ejemplo continental: la zona fótica no es exclusivamente marina.',
-  ], citations: ['siac', 'ideam', 'wetlands', 'ayapel', 'pnn-plan'] },
+    'Como contexto geográfico, Colombia tiene aproximadamente 3.531 km de costa entre el Caribe y el Pacífico. Esta longitud no equivale a un área fija de ecosistema fótico.',
+  ], citations: ['siac', 'ideam', 'wetlands', 'ayapel', 'pnn-plan', 'invemar-coast'] },
   { id: 'factores', nav: 'Factores', title: 'El agua también filtra la luz.', lead: 'Factores ambientales', paragraphs: [
     'Las partículas suspendidas absorben y dispersan la luz. Cuando aumenta la turbidez, la luz penetra menos y la zona de fotosíntesis puede hacerse más superficial.',
   ], citations: ['cmecs', 'ayapel'], blocks: [
@@ -55,8 +56,8 @@ export const lightZones = [
 ] as const;
 
 export const species = [
-  { scientificName: 'Acropora palmata', commonName: 'Coral cuerno de alce', description: 'Ramas anchas y aplanadas. Ejemplo de coral constructor de arrecifes someros del Caribe colombiano.', citations: ['pnn-plan', 'pnn-restoration'] },
-  { scientificName: 'Acropora cervicornis', commonName: 'Coral cuerno de ciervo', description: 'Ramas delgadas y ramificadas. También está presente en el Caribe colombiano y en iniciativas de restauración.', citations: ['pnn-plan', 'pnn-restoration'] },
+  { scientificName: 'Acropora palmata', commonName: 'Coral cuerno de alce', description: 'Ramas anchas y aplanadas. Ejemplo de coral constructor de arrecifes someros del Caribe colombiano.', citations: ['pnn-plan', 'pnn-restoration'], conservation: { category: 'En Peligro (EN)', scope: 'Colombia', assessmentYear: 2002, listingYear: 2024, citations: ['invemar-redbook', 'national-threats'] } },
+  { scientificName: 'Acropora cervicornis', commonName: 'Coral cuerno de ciervo', description: 'Ramas delgadas y ramificadas. También está presente en el Caribe colombiano y en iniciativas de restauración.', citations: ['pnn-plan', 'pnn-restoration'], conservation: { category: 'En Peligro Crítico (CR)', scope: 'Colombia', assessmentYear: 2002, listingYear: 2024, citations: ['invemar-redbook', 'national-threats'] } },
 ] as const satisfies readonly Species[];
 
 export const threats = [
@@ -96,8 +97,8 @@ export const foodWeb = {
 } as const;
 
 export const presentation = [
-  { person: 'Integrante 1', time: '0–3 min', topic: 'Concepto y luz', target: 'luz' },
-  { person: 'Integrante 2', time: '3–6 min', topic: 'Colombia y factores', target: 'colombia' },
-  { person: 'Integrante 3', time: '6–9 min', topic: 'Red y habitantes', target: 'red' },
-  { person: 'Integrante 4', time: '9–12 min', topic: 'Presiones y cuidado', target: 'presiones' },
+  { time: '01', topic: 'Concepto, luz y organización ecológica', target: 'luz' },
+  { time: '02', topic: 'Colombia y condiciones ambientales', target: 'colombia' },
+  { time: '03', topic: 'Flora, fauna y especies amenazadas', target: 'vida' },
+  { time: '04', topic: 'Presiones, servicios y conservación', target: 'presiones' },
 ] as const;

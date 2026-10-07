@@ -28,6 +28,17 @@ test('cubre Colombia, las tres zonas y las dos especies solicitadas', () => {
   assert.equal(content.lightZones.length, 3);
   assert.deepEqual(content.species.map(item => item.scientificName), ['Acropora palmata', 'Acropora cervicornis']);
 });
+test('la costa es contexto geográfico y las categorías nacionales distinguen evaluación y listado', () => {
+  const text = content.sections[1].paragraphs.join(' ');
+  assert.match(text, /3\.531 km de costa/);
+  assert.match(text, /no equivale a un área fija/);
+  assert.deepEqual(content.species.map(item => item.conservation.category), ['En Peligro (EN)', 'En Peligro Crítico (CR)']);
+  for (const species of content.species) {
+    assert.equal(species.conservation.assessmentYear, 2002);
+    assert.equal(species.conservation.listingYear, 2024);
+    assert.equal(getReferences(species.conservation.citations).length, 2);
+  }
+});
 test('los escenarios tienen opciones únicas y una relación esperada válida', () => {
   assert.equal(content.scenarios.length, 3);
   assert.equal(new Set(content.scenarios.map(item => item.id)).size, 3);

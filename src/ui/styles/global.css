@@ -371,3 +371,19 @@ input[type='radio'] { flex: 0 0 auto; accent-color: var(--color-ink); margin: .2
   .references-details { display: block; }
   figure, fieldset, .coral-pair article { break-inside: avoid; }
 }
+
+.map-functional-note { font-size: .875rem; line-height: 1.45; border-left: 2px solid var(--color-accent); padding-left: .75rem; margin-bottom: 1rem; }
+.species-status { border-top: 1px solid var(--color-rule); padding-top: .75rem; }
+
+.exposure-timer { margin-block: 1rem 2rem; font-size: .875rem; }
+.exposure-timer summary { cursor: pointer; padding-block: .75rem; }
+.timer-settings { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-block: 1rem; }
+.timer-settings select { max-width: 100%; font: inherit; color: var(--color-ink); background: var(--color-paper); border: 1px solid var(--color-rule); padding: .5rem; }
+[data-timer-clock] { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.exposure-timer p { font-size: .8rem; color: var(--color-muted); margin-top: .5rem; }
+.timer-exposure-status { position: fixed; bottom: 1rem; left: 1rem; z-index: 25; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; max-width: calc(100vw - 2rem); padding: .5rem .7rem; border: 1px solid var(--color-rule); background: var(--color-paper); font-size: .75rem; }
+.timer-exposure-status button { font: inherit; border: 1px solid var(--color-rule); background: transparent; color: var(--color-ink); min-height: 44px; padding: .4rem; }
+.timer-warning .timer-exposure-status, .timer-warning .fullscreen-dock { border-color: var(--color-accent); }
+.fullscreen-dock { max-width: calc(100vw - 2rem); flex-wrap: wrap; justify-content: end; gap: .35rem; }
+.fullscreen-exposure .exposure-timer { display: none !important; }
+@media print { .exposure-timer, .timer-exposure-status { display: none !important; } }

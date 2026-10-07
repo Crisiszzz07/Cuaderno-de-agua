@@ -30,6 +30,7 @@ export interface Species {
   commonName: string;
   description: string;
   citations: readonly string[];
+  conservation: { category: string; scope: string; assessmentYear: number; listingYear: number; citations: readonly string[] };
 }
 
 export interface Threat {
@@ -72,4 +73,5 @@ export interface PresentationSlide {
   citationIds: readonly string[];
   visual?: SlideVisual;
   references?: readonly Citation[];
+  activityLink?: string;
 }

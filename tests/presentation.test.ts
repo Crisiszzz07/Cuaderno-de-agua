@@ -37,6 +37,16 @@ test('el resumen conserva temas, tres explicaciones y todas las referencias', ()
   assert.deepEqual(slides.flatMap(slide => slide.references ?? []).map(reference => reference.id), getReferences().map(reference => reference.id));
   slides.forEach(slide => getReferences(slide.citationIds));
 });
+test('el PDF ofrece enlace de actividad y conserva categorías y años de amenaza', () => {
+  const slides = preparePresentation();
+  const activity = slides.find(slide => slide.id === 'actividad-grupos')!;
+  assert.equal(activity.activityLink, 'https://cuadernodeagua.duckdns.org/#actividad');
+  assert.match(activity.paragraphs.join(' '), /allí se genera el QR/);
+  const corals = slides.find(slide => slide.id === 'corales')!;
+  assert.match(corals.items[0].text, /En Peligro \(EN\).*2002.*2024/);
+  assert.match(corals.items[1].text, /En Peligro Crítico \(CR\).*2002.*2024/);
+  assert.ok(slides.filter(slide => slide.references).every(slide => slide.references!.length <= 10));
+});
 test('el PPTX empaqueta slides, tema, master, layout y enlaces coherentes', () => {
   const slides = preparePresentation();
   const files = unzipStored(createPresentationPptx(slides, getReferences()));
